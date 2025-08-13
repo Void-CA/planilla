@@ -1,0 +1,48 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Vite build
+dist/
+dist-ssr/
+*.local
+
+# Editor configs
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+logs/
+pids/
+*.pid
+*.seed
+
+# Tauri build output
+src-tauri/target/
+src-tauri/Cargo.lock
+*.exe
+*.dmg
+*.app
+*.deb
+*.AppImage
+
+# Rust
+**/*.rs.bk
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
