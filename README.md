@@ -16,8 +16,8 @@
 
 ## 🛠 Tecnologías utilizadas
 - **Frontend:** React + TailwindCSS
-- **Backend:** Node.js / Express (o especificar si usas otro)
-- **Base de datos:** SQLite / MySQL / PostgreSQL
+- **Backend:** Tauri
+- **Base de datos:** SQLite 
 - **Control de versiones:** Git + GitHub
 
 ---
