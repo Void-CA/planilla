@@ -21,6 +21,7 @@ export async function initDB() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       area_id INTEGER NOT NULL,
+      added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (area_id) REFERENCES areas(id)
     );
   `);

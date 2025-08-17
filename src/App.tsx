@@ -4,11 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Navbar } from "./components/Navbar";
-import { PayrollList } from "./pages/PayrollList";
-import { PayrollPage } from "./pages/PayrollPage";
-import { PayrollDetail } from "./pages/PayrollDetail"
-import { WorkersPage } from "./pages/WorkersPage";
-import { AreasPage } from "./pages/AreasPage";
+import {WorkerDetail, WorkersPage, AreasPage, PayrollDetail, PayrollList, PayrollPage} from "./pages"
 
 export default function App() {
   return (
@@ -20,6 +16,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Navigate to="/planilla" replace />} />
             <Route path="/trabajadores" element={<WorkersPage />} />
+            <Route path="/trabajadores/:id" element={<WorkerDetail />} />
             <Route path="/areas" element={<AreasPage />} />
             <Route path="/planilla" element={<PayrollList />} />
             <Route path="/planilla/new" element={<PayrollPage />} />

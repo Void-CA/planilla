@@ -35,10 +35,31 @@ export function EntityTable<T extends { id: number }>({
   const totalPages = Math.max(1, Math.ceil(data.length / pageSize));
   const paginated = data.slice((page - 1) * pageSize, page * pageSize);
 
+  // Funciones de humanización
+  function humanize(key: string, value: any) {
+    if (value == null) return "-";
+    // Fechas
+    if (key.toLowerCase().includes("date")) {
+      const d = new Date(value);
+      if (!isNaN(d.getTime())) {
+        return d.toLocaleDateString("es-ES", { year: "numeric", month: "short", day: "2-digit" });
+      }
+    }
+    // Dinero
+    if (["total", "calculated_payment", "hourly_rate"].includes(key)) {
+      return `$${Number(value).toLocaleString("es-ES", { minimumFractionDigits: 2 })}`;
+    }
+    // Números
+    if (["hours_worked", "attendance_days"].includes(key)) {
+      return Number(value).toLocaleString("es-ES");
+    }
+    return value;
+  }
+
   return (
-  <div className="max-w-4xl mx-auto p-4 bg-white shadow-lg rounded-xl border border-gray-100">
+    <div className="max-w-4xl mx-auto p-4 bg-white shadow-lg rounded-xl border border-gray-100">
       <div className="flex justify-between items-center mb-4">
-  <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+        <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
           {title}
         </h2>
         {onAdd && (
@@ -59,7 +80,7 @@ export function EntityTable<T extends { id: number }>({
             <thead className="bg-gray-50">
               <tr>
                 {columns.map((col) => (
-                  <th key={String(col.key)} className="px-4 py-2 border-b text-left font-semibold text-gray-700 tracking-wide">
+                  <th key={String(col.key)} className="px-4 py-2 border-b text-left font-semibold text-gray-700 tracking-wide text-center">
                     {col.label}
                   </th>
                 ))}
@@ -75,8 +96,8 @@ export function EntityTable<T extends { id: number }>({
                 paginated.map((row) => (
                   <tr key={row.id} className="border-b hover:bg-gray-50 transition">
                     {columns.map((col) => (
-                      <td key={String(col.key)} className="px-4 py-2 align-middle">
-                        {col.render ? col.render(row[col.key], row) : (row[col.key] as React.ReactNode)}
+                      <td key={String(col.key)} className="px-4 py-2 align-middle whitespace-nowrap text-center">
+                        {col.render ? col.render(row[col.key], row) : humanize(String(col.key), row[col.key])}
                       </td>
                     ))}
                     {(onEdit || onDelete) && (
@@ -110,7 +131,7 @@ export function EntityTable<T extends { id: number }>({
       )}
       {/* Pagination */}
       {totalPages > 1 && (
-  <div className="flex justify-center items-center mt-4 space-x-2 text-base">
+        <div className="flex justify-center items-center mt-4 space-x-2 text-base">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}

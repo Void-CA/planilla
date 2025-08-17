@@ -68,3 +68,24 @@ export async function getPayrollById(id: number) {
   (payroll as any).details = await getPayrollDetails(id);
   return payroll;
 }
+
+export async function getPayrollDetailsById(payroll_id: number) {
+  const db = await initDB();
+  return db.select(
+    "SELECT * FROM payroll_detail WHERE payroll_id = ?;",
+    [payroll_id]
+  );
+}
+
+export async function getPayrollsForWorker(worker_id: number) {
+  const db = await initDB();
+  // JOIN payrolls y payroll_detail para obtener la info conjunta
+  return db.select(`
+    SELECT p.id as payroll_id, p.start_date, p.end_date, p.total,
+           d.id as detail_id, d.hours_worked, d.attendance_days, d.hourly_rate, d.calculated_payment
+    FROM payrolls p
+    JOIN payroll_detail d ON p.id = d.payroll_id
+    WHERE d.worker_id = ?
+    ORDER BY p.id DESC;
+  `, [worker_id]);
+}
